@@ -1,6 +1,9 @@
 package com.example.hr_system.domain;
 
+import com.example.hr_system.dtos.DepartmentDto;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 
 @Entity
@@ -14,12 +17,14 @@ public class Department {
     @Column(unique = true)
     private String name;
 
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees;
+
     public Department() {
     }
 
-    public Department(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public Department(DepartmentDto departmentDto) {
+        this.name = departmentDto.name();
     }
 
     public Long getId() {
@@ -36,5 +41,9 @@ public class Department {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
     }
 }
