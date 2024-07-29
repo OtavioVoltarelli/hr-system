@@ -1,6 +1,7 @@
 package com.example.hr_system.domain;
 
 import com.example.hr_system.dtos.DepartmentDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,9 +15,10 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Employee> employees;
 

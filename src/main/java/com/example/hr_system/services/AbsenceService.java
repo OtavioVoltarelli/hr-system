@@ -27,8 +27,8 @@ public class AbsenceService {
         return absenceRepository.findAll();
     }
 
-    public Optional<Absence> findById(Long id) {
-        return absenceRepository.findById(id);
+    public Absence findById(Long id) {
+        return absenceRepository.findById(id).orElseThrow(() -> new RuntimeException("Absence with Id " + id + " not found"));
     }
 
 }

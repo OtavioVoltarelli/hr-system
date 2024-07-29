@@ -31,7 +31,6 @@ public class Absence {
         this.startDate = absenceDto.startDate();
         this.endDate = absenceDto.endDate();
         this.reason = absenceDto.reason();
-        this.employee = absenceDto.employee();
     }
 
     public Long getId() {

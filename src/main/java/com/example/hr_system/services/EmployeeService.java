@@ -25,8 +25,8 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> findById(Long id) {
-        return employeeRepository.findById(id);
+    public Employee findById(Long id) {
+        return employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee with Id " + id + " not found"));
     }
 
 }

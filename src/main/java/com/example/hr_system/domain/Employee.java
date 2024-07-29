@@ -1,6 +1,7 @@
 package com.example.hr_system.domain;
 
 import com.example.hr_system.dtos.EmployeeDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +31,7 @@ public class Employee {
     @JoinColumn(name = "department_id", nullable = false)
     Department department;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     List<Absence> absences;
 
@@ -39,7 +41,6 @@ public class Employee {
         this.cpf = employeeDto.cpf();
         this.position = employeeDto.position();
         this.hireDate = employeeDto.hireDate();
-        this.department = employeeDto.department();
     }
 
     public Employee() {
