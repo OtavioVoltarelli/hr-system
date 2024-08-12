@@ -40,4 +40,12 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.OK).body(departments);
     }
 
+    @Transactional
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Department> update(@PathVariable Long id, @RequestBody @Valid DepartmentDto departmentDto) {
+        Department department = departmentService.findById(id);
+        department.setName(departmentDto.name());
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.save(department));
+    }
+
 }

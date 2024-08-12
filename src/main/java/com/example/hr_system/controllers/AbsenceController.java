@@ -47,4 +47,11 @@ public class AbsenceController {
         return ResponseEntity.status(HttpStatus.OK).body(absences);
     }
 
+    @Transactional
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Absence> update(@PathVariable Long id, @RequestBody @Valid AbsenceDto absenceDto) {
+        Absence absence = absenceService.update(id, absenceDto);
+        return ResponseEntity.status(HttpStatus.OK).body(absence);
+    }
+
 }
