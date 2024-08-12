@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -42,15 +41,15 @@ public class EmployeeService {
         employee.setDepartment(department);
         employee.setCpf(employeeDto.cpf());
         employee.setName(employeeDto.name());
-        employee.setPosition(employeeDto.position());
-        employee.setHireDate(employeeDto.hireDate());
+        employee.setContactNumber(employeeDto.contactNumber());
+        employee.setBirthDate(employeeDto.birthDate());
         return employeeRepository.save(employee);
     }
 
     @Transactional
     public Employee disable(Long id, TerminationEmployeeDto terminationEmployeeDto) {
         Employee employee = findById(id);
-        employee.setTerminationDate(terminationEmployeeDto.terminationDate());
+        //TODO: close contract when employee is terminated
         employee.setActive(false);
         return employeeRepository.save(employee);
     }

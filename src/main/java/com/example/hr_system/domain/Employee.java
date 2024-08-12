@@ -4,7 +4,6 @@ import com.example.hr_system.dtos.EmployeeDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,12 +19,10 @@ public class Employee {
     private String name;
     @NotBlank
     private String cpf;
-    @NotBlank
-    private String position;
-    @Column(name = "hire_date", nullable = false)
-    private LocalDate hireDate;
-    @Column(name = "termination_date")
-    private LocalDate terminationDate;
+    @Column(name = "birth_date",nullable = false)
+    private LocalDate birthDate;
+    @Column(name = "contract_number", nullable = false)
+    private String contactNumber;
     @Column(nullable = false)
     private Boolean active;
 
@@ -37,12 +34,15 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     List<Absence> absences;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    List<EmployeeContracts> contracts;
 
     public Employee(EmployeeDto employeeDto) {
         this.name = employeeDto.name();
         this.cpf = employeeDto.cpf();
-        this.position = employeeDto.position();
-        this.hireDate = employeeDto.hireDate();
+        this.birthDate = employeeDto.birthDate();
+        this.contactNumber = employeeDto.contactNumber();
     }
 
     public Employee() {
@@ -72,28 +72,28 @@ public class Employee {
         this.cpf = cpf;
     }
 
-    public @NotBlank String getPosition() {
-        return position;
+    public @NotBlank String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setPosition(@NotBlank String position) {
-        this.position = position;
+    public void setContactNumber(@NotBlank String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
-    public LocalDate getHireDate() {
-        return hireDate;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setHireDate(LocalDate hireDate) {
-        this.hireDate = hireDate;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public LocalDate getTerminationDate() {
-        return terminationDate;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setTerminationDate(LocalDate terminationDate) {
-        this.terminationDate = terminationDate;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Department getDepartment() {
@@ -108,11 +108,7 @@ public class Employee {
         return absences;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
+    public List<EmployeeContracts> getContracts() {
+        return contracts;
     }
 }
