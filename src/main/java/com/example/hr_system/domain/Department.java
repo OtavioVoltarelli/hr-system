@@ -18,6 +18,9 @@ public class Department {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Boolean active;
+
     @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Employee> employees;
@@ -47,5 +50,13 @@ public class Department {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

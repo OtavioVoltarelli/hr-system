@@ -10,7 +10,6 @@ public record EmployeeDto(@NotBlank String name,
                           @NotBlank String cpf,
                           @NotBlank String position,
                           @NotNull LocalDate hireDate,
-                          LocalDate terminationDate,
                           @NotNull Long departmentId) {
 
 }

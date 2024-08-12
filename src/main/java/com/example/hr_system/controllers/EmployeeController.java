@@ -3,6 +3,7 @@ package com.example.hr_system.controllers;
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeDto;
+import com.example.hr_system.dtos.TerminationEmployeeDto;
 import com.example.hr_system.services.DepartmentService;
 import com.example.hr_system.services.EmployeeService;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,7 @@ public class EmployeeController {
         Department department = departmentService.findById(employeeDto.departmentId());
         Employee employee = new Employee(employeeDto);
         employee.setDepartment(department);
+        employee.setActive(true);
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.save(employee));
     }
 
@@ -51,6 +53,13 @@ public class EmployeeController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody @Valid EmployeeDto employeeDto) {
         Employee employee = employeeService.update(id, employeeDto);
+        return ResponseEntity.status(HttpStatus.OK).body(employee);
+    }
+
+    @Transactional
+    @PutMapping(value = "/disable/{id}")
+    public ResponseEntity<Employee> disable(@PathVariable Long id, @RequestBody @Valid TerminationEmployeeDto terminationEmployeeDto) {
+        Employee employee = employeeService.disable(id, terminationEmployeeDto);
         return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 }

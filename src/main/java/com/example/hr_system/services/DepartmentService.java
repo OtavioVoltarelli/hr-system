@@ -16,6 +16,7 @@ public class DepartmentService {
     @Autowired
     DepartmentRepository departmentRepository;
 
+
     @Transactional
     public Department save(Department department) {
         return departmentRepository.save(department);
@@ -29,4 +30,10 @@ public class DepartmentService {
         return departmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Department with Id " + id + " not found"));
     }
 
+    @Transactional
+    public Department disable(Long id) {
+        Department department = findById(id);
+        department.setActive(false);
+        return departmentRepository.save(department);
+    }
 }

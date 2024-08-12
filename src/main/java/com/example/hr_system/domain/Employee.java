@@ -26,6 +26,8 @@ public class Employee {
     private LocalDate hireDate;
     @Column(name = "termination_date")
     private LocalDate terminationDate;
+    @Column(nullable = false)
+    private Boolean active;
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
@@ -106,4 +108,11 @@ public class Employee {
         return absences;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

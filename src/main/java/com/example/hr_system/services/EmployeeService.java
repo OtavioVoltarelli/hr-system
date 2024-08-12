@@ -3,6 +3,7 @@ package com.example.hr_system.services;
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeDto;
+import com.example.hr_system.dtos.TerminationEmployeeDto;
 import com.example.hr_system.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,14 @@ public class EmployeeService {
         employee.setName(employeeDto.name());
         employee.setPosition(employeeDto.position());
         employee.setHireDate(employeeDto.hireDate());
-        employee.setTerminationDate(employeeDto.terminationDate());
         return employeeRepository.save(employee);
     }
 
+    @Transactional
+    public Employee disable(Long id, TerminationEmployeeDto terminationEmployeeDto) {
+        Employee employee = findById(id);
+        employee.setTerminationDate(terminationEmployeeDto.terminationDate());
+        employee.setActive(false);
+        return employeeRepository.save(employee);
+    }
 }
