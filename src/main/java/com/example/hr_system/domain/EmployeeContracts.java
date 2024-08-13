@@ -1,6 +1,7 @@
 package com.example.hr_system.domain;
 
 import com.example.hr_system.dtos.EmployeeContractsDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -10,6 +11,9 @@ import java.time.LocalDate;
 @Table(name = "employee_contracts")
 public class EmployeeContracts {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotBlank
     private String position;
     @Column(nullable = false)
@@ -21,6 +25,7 @@ public class EmployeeContracts {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
+    @JsonBackReference
     private Employee employee;
 
 
@@ -28,7 +33,7 @@ public class EmployeeContracts {
         this.position = employeeContractsDto.position();
         this.salary = employeeContractsDto.salary();
         this.hireDate = employeeContractsDto.hireDate();
-        this.terminationDate = employeeContractsDto.terminationDate();
+        this.terminationDate = null;
     }
 
     public EmployeeContracts() {

@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record TerminationEmployeeDto(@NotNull LocalDate terminationDate) {
+public record TerminationContractDto(@NotNull LocalDate terminationDate) {
 }

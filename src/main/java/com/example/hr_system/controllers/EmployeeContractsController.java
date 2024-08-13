@@ -3,6 +3,7 @@ package com.example.hr_system.controllers;
 import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeContractsDto;
+import com.example.hr_system.dtos.TerminationContractDto;
 import com.example.hr_system.services.EmployeeContractsService;
 import com.example.hr_system.services.EmployeeService;
 import jakarta.transaction.Transactional;
@@ -54,4 +55,10 @@ public class EmployeeContractsController {
         return ResponseEntity.status(HttpStatus.OK).body(employeeContracts);
     }
 
+    @Transactional
+    @PutMapping(value = "/disable/{id}")
+    public ResponseEntity<EmployeeContracts> disable(@PathVariable Long id, @RequestBody @Valid TerminationContractDto terminationContractDto) {
+        EmployeeContracts employeeContracts = employeeContractsService.disable(id, terminationContractDto);
+        return ResponseEntity.status(HttpStatus.OK).body(employeeContracts);
+    }
 }

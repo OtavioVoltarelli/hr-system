@@ -3,7 +3,9 @@ package com.example.hr_system.services;
 import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeContractsDto;
+import com.example.hr_system.dtos.TerminationContractDto;
 import com.example.hr_system.repositories.EmployeeContractsRepository;
+import com.example.hr_system.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,12 @@ public class EmployeeContractsService {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    EmployeeRepository employeeRepository;
+
     @Transactional
     public EmployeeContracts save(EmployeeContracts employeeContracts) {
+        boolean hasActiveContract = employeeService.hasActiveContract(employeeContracts.getEmployee().getId());
         return employeeContractsRepository.save(employeeContracts);
     }
 
@@ -41,8 +47,17 @@ public class EmployeeContractsService {
         employeeContracts.setPosition(employeeContractsDto.position());
         employeeContracts.setSalary(employeeContractsDto.salary());
         employeeContracts.setHireDate(employeeContractsDto.hireDate());
-        employeeContracts.setTerminationDate(employeeContractsDto.terminationDate());
         return employeeContractsRepository.save(employeeContracts);
     }
 
+    @Transactional
+    public EmployeeContracts disable(Long employeeId, TerminationContractDto terminationContractDto) {
+        Employee employee = employeeService.findById(employeeId);
+        EmployeeContracts activeContract = employee.getContracts().stream()
+                .filter(contract -> contract.getTerminationDate() == null)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Any active contract found."));
+        activeContract.setTerminationDate(terminationContractDto.terminationDate());
+        return employeeContractsRepository.save(activeContract);
+    }
 }

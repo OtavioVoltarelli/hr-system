@@ -2,6 +2,7 @@ package com.example.hr_system.domain;
 
 import com.example.hr_system.dtos.EmployeeDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,7 +18,7 @@ public class Employee {
     private Long id;
     @NotBlank
     private String name;
-    @NotBlank
+    @Column(nullable = false, unique = true)
     private String cpf;
     @Column(name = "birth_date",nullable = false)
     private LocalDate birthDate;
@@ -34,7 +35,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     List<Absence> absences;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "employee")
     List<EmployeeContracts> contracts;
 

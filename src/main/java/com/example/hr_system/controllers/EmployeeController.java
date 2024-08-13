@@ -3,8 +3,9 @@ package com.example.hr_system.controllers;
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeDto;
-import com.example.hr_system.dtos.TerminationEmployeeDto;
+import com.example.hr_system.dtos.TerminationContractDto;
 import com.example.hr_system.services.DepartmentService;
+import com.example.hr_system.services.EmployeeContractsService;
 import com.example.hr_system.services.EmployeeService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -22,6 +23,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    EmployeeContractsService employeeContractsService;
 
     @Autowired
     DepartmentService departmentService;
@@ -58,8 +62,9 @@ public class EmployeeController {
 
     @Transactional
     @PutMapping(value = "/disable/{id}")
-    public ResponseEntity<Employee> disable(@PathVariable Long id, @RequestBody @Valid TerminationEmployeeDto terminationEmployeeDto) {
-        Employee employee = employeeService.disable(id, terminationEmployeeDto);
+    public ResponseEntity<Employee> disable(@PathVariable Long id, @RequestBody @Valid TerminationContractDto terminationContractDto) {
+        Employee employee = employeeService.disable(id, terminationContractDto);
+        employeeContractsService.disable(id, terminationContractDto);
         return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 }

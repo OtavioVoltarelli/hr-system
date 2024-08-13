@@ -2,14 +2,17 @@ package com.example.hr_system.services;
 
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.Employee;
+import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.dtos.EmployeeDto;
-import com.example.hr_system.dtos.TerminationEmployeeDto;
+import com.example.hr_system.dtos.TerminationContractDto;
 import com.example.hr_system.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -20,6 +23,8 @@ public class EmployeeService {
 
     @Autowired
     DepartmentService departmentService;
+
+
 
     @Transactional
     public Employee save(Employee employee) {
@@ -47,10 +52,21 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee disable(Long id, TerminationEmployeeDto terminationEmployeeDto) {
+    public Employee disable(Long id, TerminationContractDto terminationContractDto) {
         Employee employee = findById(id);
-        //TODO: close contract when employee is terminated
         employee.setActive(false);
+//        employeeContractsService.disable(id, terminationContractDto);
         return employeeRepository.save(employee);
+    }
+
+    public boolean hasActiveContract (Long id) {
+        Employee employee = findById(id);
+        Optional<EmployeeContracts> optionalActiveContract = employee.getContracts().stream()
+                .filter(contract -> contract.getTerminationDate() == null)
+                .findFirst();
+        if (optionalActiveContract.isPresent()) {
+            throw new RuntimeException("This employee already has an active contract");
+        }
+        return false;
     }
 }

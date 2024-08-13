@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 public record EmployeeDto(@NotBlank String name,
                           @NotBlank String cpf,
-                          @NotBlank String position,
                           @NotBlank String contactNumber,
                           @NotNull LocalDate birthDate,
                           @NotNull Long departmentId) {
