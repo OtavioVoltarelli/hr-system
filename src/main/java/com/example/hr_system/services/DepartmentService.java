@@ -1,5 +1,6 @@
 package com.example.hr_system.services;
 
+import com.example.hr_system.domain.Absence;
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.repositories.DepartmentRepository;
 import jakarta.transaction.Transactional;
@@ -35,5 +36,11 @@ public class DepartmentService {
         Department department = findById(id);
         department.setActive(false);
         return departmentRepository.save(department);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Department department = findById(id);
+        departmentRepository.delete(department);
     }
 }

@@ -48,4 +48,10 @@ public class AbsenceService {
         return absenceRepository.save(absence);
     }
 
+    @Transactional
+    public void delete(Long id){
+        Absence absence = findById(id);
+        absenceRepository.delete(absence);
+    }
+
 }

@@ -54,4 +54,10 @@ public class AbsenceController {
         return ResponseEntity.status(HttpStatus.OK).body(absence);
     }
 
+    @Transactional
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        absenceService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

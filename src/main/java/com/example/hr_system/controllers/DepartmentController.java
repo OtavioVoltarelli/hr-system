@@ -56,4 +56,10 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.OK).body(departmentService.save(department));
     }
 
+    @Transactional
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        departmentService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

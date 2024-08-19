@@ -67,4 +67,11 @@ public class EmployeeController {
         employeeContractsService.disable(id, terminationContractDto);
         return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
+
+    @Transactional
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        employeeService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

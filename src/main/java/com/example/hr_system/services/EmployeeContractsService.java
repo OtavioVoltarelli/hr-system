@@ -1,5 +1,6 @@
 package com.example.hr_system.services;
 
+import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeContractsDto;
@@ -59,5 +60,11 @@ public class EmployeeContractsService {
                 .orElseThrow(() -> new RuntimeException("Any active contract found."));
         activeContract.setTerminationDate(terminationContractDto.terminationDate());
         return employeeContractsRepository.save(activeContract);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        EmployeeContracts employeeContracts = findById(id);
+        employeeContractsRepository.delete(employeeContracts);
     }
 }

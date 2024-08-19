@@ -69,4 +69,10 @@ public class EmployeeService {
         }
         return false;
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Employee employee = findById(id);
+        employeeRepository.delete(employee);
+    }
 }
