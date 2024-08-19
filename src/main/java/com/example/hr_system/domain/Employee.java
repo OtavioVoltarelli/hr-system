@@ -18,7 +18,7 @@ public class Employee {
     private Long id;
     @NotBlank
     private String name;
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String cpf;
     @Column(name = "birth_date",nullable = false)
     private LocalDate birthDate;
