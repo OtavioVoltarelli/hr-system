@@ -4,6 +4,7 @@ import com.example.hr_system.domain.Absence;
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.AbsenceDto;
+import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.AbsenceRepository;
 import com.example.hr_system.repositories.DepartmentRepository;
 import com.example.hr_system.repositories.EmployeeRepository;
@@ -34,7 +35,7 @@ public class AbsenceService {
     }
 
     public Absence findById(Long id) {
-        return absenceRepository.findById(id).orElseThrow(() -> new RuntimeException("Absence with Id " + id + " not found"));
+        return absenceRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Absence with Id " + id + " not found"));
     }
 
     @Transactional

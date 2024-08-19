@@ -5,6 +5,7 @@ import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeContractsDto;
 import com.example.hr_system.dtos.TerminationContractDto;
+import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.EmployeeContractsRepository;
 import com.example.hr_system.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
@@ -37,7 +38,7 @@ public class EmployeeContractsService {
     }
 
     public EmployeeContracts findById(Long id) {
-        return employeeContractsRepository.findById(id).orElseThrow(() -> new RuntimeException("EmployeeContracts with Id " + id + " not found"));
+        return employeeContractsRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Employee contract with Id " + id + " not found"));
     }
 
     @Transactional

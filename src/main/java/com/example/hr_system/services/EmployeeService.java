@@ -5,6 +5,7 @@ import com.example.hr_system.domain.Employee;
 import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.dtos.EmployeeDto;
 import com.example.hr_system.dtos.TerminationContractDto;
+import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class EmployeeService {
     }
 
     public Employee findById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee with Id " + id + " not found"));
+        return employeeRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Employee with Id " + id + " not found"));
     }
 
     @Transactional

@@ -2,6 +2,7 @@ package com.example.hr_system.services;
 
 import com.example.hr_system.domain.Absence;
 import com.example.hr_system.domain.Department;
+import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.DepartmentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class DepartmentService {
     }
 
     public Department findById(Long id) {
-        return departmentRepository.findById(id).orElseThrow(() -> new RuntimeException("Department with Id " + id + " not found"));
+        return departmentRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Department with Id " + id + " not found"));
     }
 
     @Transactional
