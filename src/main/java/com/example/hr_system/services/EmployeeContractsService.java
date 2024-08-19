@@ -5,6 +5,7 @@ import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.EmployeeContractsDto;
 import com.example.hr_system.dtos.TerminationContractDto;
+import com.example.hr_system.exceptions.NoActiveContractException;
 import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.EmployeeContractsRepository;
 import com.example.hr_system.repositories.EmployeeRepository;
@@ -58,7 +59,7 @@ public class EmployeeContractsService {
         EmployeeContracts activeContract = employee.getContracts().stream()
                 .filter(contract -> contract.getTerminationDate() == null)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Any active contract found."));
+                .orElseThrow(NoActiveContractException::new);
         activeContract.setTerminationDate(terminationContractDto.terminationDate());
         return employeeContractsRepository.save(activeContract);
     }
