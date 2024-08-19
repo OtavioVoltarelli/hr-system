@@ -53,10 +53,9 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee disable(Long id, TerminationContractDto terminationContractDto) {
+    public Employee disable(Long id) {
         Employee employee = findById(id);
         employee.setActive(false);
-//        employeeContractsService.disable(id, terminationContractDto);
         return employeeRepository.save(employee);
     }
 

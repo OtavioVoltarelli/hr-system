@@ -63,7 +63,7 @@ public class EmployeeController {
     @Transactional
     @PutMapping(value = "/disable/{id}")
     public ResponseEntity<Employee> disable(@PathVariable Long id, @RequestBody @Valid TerminationContractDto terminationContractDto) {
-        Employee employee = employeeService.disable(id, terminationContractDto);
+        Employee employee = employeeService.disable(id);
         employeeContractsService.disable(id, terminationContractDto);
         return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
