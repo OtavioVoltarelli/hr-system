@@ -4,6 +4,7 @@ import com.example.hr_system.domain.Absence;
 import com.example.hr_system.domain.Department;
 import com.example.hr_system.domain.Employee;
 import com.example.hr_system.dtos.AbsenceDto;
+import com.example.hr_system.exceptions.InvalidDateException;
 import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.AbsenceRepository;
 import com.example.hr_system.repositories.DepartmentRepository;
@@ -27,6 +28,7 @@ public class AbsenceService {
 
     @Transactional
     public Absence save(Absence absence) {
+        if (!absence.getStartDate().isBefore(absence.getEndDate())) throw new InvalidDateException("Start date must be before end date.");
         return absenceRepository.save(absence);
     }
 

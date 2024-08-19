@@ -5,6 +5,7 @@ import com.example.hr_system.domain.Employee;
 import com.example.hr_system.domain.EmployeeContracts;
 import com.example.hr_system.dtos.EmployeeDto;
 import com.example.hr_system.dtos.TerminationContractDto;
+import com.example.hr_system.exceptions.AlreadyDisableException;
 import com.example.hr_system.exceptions.ObjectNotFoundException;
 import com.example.hr_system.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
@@ -55,6 +56,7 @@ public class EmployeeService {
     @Transactional
     public Employee disable(Long id) {
         Employee employee = findById(id);
+        if (!employee.getActive()) throw new AlreadyDisableException("Employee with id " + id + " already disable!");
         employee.setActive(false);
         return employeeRepository.save(employee);
     }

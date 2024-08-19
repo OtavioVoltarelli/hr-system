@@ -1,5 +1,7 @@
 package com.example.hr_system.infra.exceptionsHandler;
 
+import com.example.hr_system.exceptions.AlreadyDisableException;
+import com.example.hr_system.exceptions.InvalidDateException;
 import com.example.hr_system.exceptions.NoActiveContractException;
 import com.example.hr_system.exceptions.ObjectNotFoundException;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
@@ -30,16 +32,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<RestErrorMessage> DuplicatedValueHandler(DataIntegrityViolationException ex) {
+    public ResponseEntity<RestErrorMessage> DuplicatedValueHandler(DataIntegrityViolationException ex) {
         String message = "Value already exists. " + ex.getMessage();
         RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.CONFLICT, message);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(restErrorMessage);
     }
 
-//    @ExceptionHandler(HttpMessageNotReadableException.class)
-//    public ResponseEntity<RestErrorMessage> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
-//        String errorMessage = "Invalid request body. Please check the format of the input.";
-//        RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.BAD_REQUEST, errorMessage);
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErrorMessage);
-//    }
+    @ExceptionHandler(AlreadyDisableException.class)
+    public ResponseEntity<RestErrorMessage> AlreadyDisableHandler(AlreadyDisableException ex) {
+        RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErrorMessage);
+    }
+
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<RestErrorMessage> InvalidDateHandler(InvalidDateException ex) {
+        RestErrorMessage restErrorMessage = new RestErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErrorMessage);
+    }
 }
